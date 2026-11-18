@@ -110,7 +110,9 @@ lrealpath (filename)
      pathconf()) making it impossible to pass a correctly sized buffer
      to realpath() (it could always overflow).  On those systems, we
      skip this.  */
-#if defined (HAVE_REALPATH) && defined (HAVE_UNISTD_H)
+  /* A/UX only declares _PC_PATH_MAX with _POSIX_SOURCE, and has
+     PATH_MAX for method 1 anyway.  */
+#if defined (HAVE_REALPATH) && defined (HAVE_UNISTD_H) && defined (_PC_PATH_MAX)
   {
     /* Find out the max path size.  */
     long path_max = pathconf ("/", _PC_PATH_MAX);
